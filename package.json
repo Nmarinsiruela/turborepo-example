@@ -1,24 +1,42 @@
 {
-  "name": "my-turborepo",
+  "version": "0.0.0",
+  "name": "turborepo-example",
   "private": true,
+  "description": "A simple repo to test a monorepo with good practices",
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo build",
+    "build:force": "turbo build --force",
+    "changeset": "changeset",
+    "check-types": "turbo run check-types",
+    "clean": "turbo clean && rm -rf node_modules && npm ci",
     "dev": "turbo run dev",
+    "format": "biome format packages",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
+    "prepare": "husky",
+    "release": "changeset && turbo run build test && changeset version && changeset publish && git push",
+    "sync": "node sync-selector.mjs",
+    "test": "turbo run test"
   },
   "devDependencies": {
-    "prettier": "^3.5.3",
+    "@biomejs/biome": "1.9.4",
+    "@changesets/cli": "^2.29.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.0.0",
+    "tsup": "^8.5.0",
     "turbo": "^2.5.3",
-    "typescript": "5.8.2"
+    "typescript": "5.8.2",
+    "vitest": "^3.1.4"
   },
   "engines": {
     "node": ">=18"
   },
   "packageManager": "npm@10.9.2",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  "workspaces": ["packages/*"],
+  "lint-staged": {
+    "*.{json,css,md}": ["npm run format -- --write"],
+    "*.{ts,js}": [
+      "npm run format -- --write",
+      "vitest --passWithNoTests --silent related --run"
+    ]
+  }
 }

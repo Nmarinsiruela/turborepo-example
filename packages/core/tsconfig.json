@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.base.jsonc",
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

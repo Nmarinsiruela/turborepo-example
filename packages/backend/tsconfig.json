@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.base.jsonc",
+  "compilerOptions": {
+    "rootDir": "../../",
+    "paths": {
+      "core-package": ["packages/core/src/index"]
+    }
+  },
+  "include": ["src", "../core/src"]
+}
